@@ -14,38 +14,32 @@ const NewExpense = (props) => {
     };
     props.onAddExpense(expenseData);
 
-    updateNewExpense(false);
+    setIsEditing(false);
   };
 
-  const [addNewExpense, updateNewExpense] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
-  const addNewExpenseHandler = () => {
-    updateNewExpense(true);
-  };
-
-  const cancelExpenseHandler = () => {
-    updateNewExpense(false);
-  };
-
-  let content = '';
-  if (addNewExpense) {
-    content = (
-      <div>
+  return (
+    <div className="new-expense">
+      {!isEditing && (
+        <button
+          onClick={() => {
+            setIsEditing(true);
+          }}
+        >
+          Add New Expense
+        </button>
+      )}
+      {isEditing && (
         <ExpenseForm
           onSaveExpenseData={saveExpenseDataHandler}
-          onCancelExpense={cancelExpenseHandler}
+          onCancelExpense={() => {
+            setIsEditing(false);
+          }}
         />
-      </div>
-    );
-  } else {
-    content = (
-      <div>
-        <button onClick={addNewExpenseHandler}>Add New Expense</button>
-      </div>
-    );
-  }
-
-  return <div className="new-expense">{content}</div>;
+      )}
+    </div>
+  );
 };
 
 export default NewExpense;
